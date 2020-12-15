@@ -13,7 +13,7 @@ services:
   localstack-s3:
     image: localstack/localstack:latest
     ports:
-      - "4572:4572"
+      - "4566:4566"
     environment:
-      - SERVICES=s3:4572
+      - SERVICES=s3:4566
       - DEFAULT_REGION=us-west-1
