@@ -4,7 +4,10 @@ Model helper
 ###
 # Libraries
 ###
+import uuid
+
 from django.db import models
+from django.utils.translation import ugettext as _
 
 
 ###
@@ -25,7 +28,7 @@ class TimestampModel(models.Model):
 
 class TitleBaseModel(models.Model):
     '''
-        Extend this model if you wish to have the title field.
+        Extend this model if you wish to have a title field.
     '''
 
     class Meta:
@@ -36,7 +39,7 @@ class TitleBaseModel(models.Model):
 
 class ContentBaseModel(models.Model):
     '''
-        Extend this model if you wish to have title and content fields.
+        Extend this model if you wish to have a content field.
     '''
 
     class Meta:
@@ -53,4 +56,17 @@ class AuthorBaseModel(models.Model):
     class Meta:
         abstract = True
 
-    author = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=False, db_index=True)
+    author = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=False, db_index=True,
+                               editable=False)
+
+
+class UUIDBaseModel(models.Model):
+    '''
+        Extend this model if you wish to have use an UUID as PK.
+    '''
+
+    class Meta:
+        abstract = True
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          editable=False, verbose_name=_('uuid'))
