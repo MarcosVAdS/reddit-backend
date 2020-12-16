@@ -35,7 +35,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = ENVIRONMENT == 'development' or os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = [
-    '.us-west-2.elb.amazonaws.com',
+    '.us-west-1.elb.amazonaws.com',
     '.compute-1.amazonaws.com',
     'localhost',
 ]
@@ -90,6 +90,9 @@ INSTALLED_APPS = [
 
     # Swagger generator
     'drf_yasg',
+
+    # Django Filter Backend
+    'django_filters',
 
     # Applications
     'accounts',
@@ -161,12 +164,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 ###
 # Storage
 ###
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_DEFAULT_ACL = None
+AWS_BUCKET_ACL = None
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_AUTO_CREATE_BUCKET = True
 AWS_IS_GZIPPED = True
@@ -189,6 +194,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20
 }
@@ -349,7 +355,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 if not DEBUG and ENVIRONMENT != 'test':
     EMAIL_BACKEND = 'django_amazon_ses.EmailBackend'
-    AWS_DEFAULT_REGION = 'us-west-2'
+    AWS_DEFAULT_REGION = 'us-west-1'
 
 ###
 # Swagger Settings
