@@ -36,3 +36,6 @@ class Topic(UUIDBaseModel, AuthorBaseModel, TimestampModel, TitleBaseModel):
     def save(self, *args, **kwargs):
         self.url_name = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return 'Topic({}, {})'.format(self.id, self.url_name)

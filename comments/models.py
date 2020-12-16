@@ -27,4 +27,7 @@ class Comment(UUIDBaseModel, AuthorBaseModel, ContentBaseModel, TimestampModel, 
 
     # Image
     image = models.ImageField(null=True, blank=True,
-                              upload_to=UploadFileTo('posts-images', 'post'))
+                              upload_to=UploadFileTo('comments-images', 'comment'))
+
+    def __str__(self):
+        return 'Comment({}, {})'.format(self.id, self.post)

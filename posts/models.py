@@ -28,3 +28,6 @@ class Post(UUIDBaseModel, AuthorBaseModel, ContentBaseModel, TimestampModel, Tit
     # Image
     image = models.ImageField(null=True, blank=True,
                               upload_to=UploadFileTo('posts-images', 'post'))
+
+    def __str__(self):
+        return 'Post({}, {})'.format(self.id, self.topic)
